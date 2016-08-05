@@ -1,0 +1,25 @@
+﻿install.packages("jsonlite")
+library(jsonlite)
+
+
+pizza <- fromJSON("~/Desktop/pizza_request_dataset.json")
+class(pizza)
+
+
+
+
+filePath <- read.table("/Users/hayley/Desktop/pizza_request_dataset.json", header=FALSE, fill=TRUE)
+
+
+/Users/hayley/Desktop
+# word cloud!
+
+
+http://www.sthda.com/english/wiki/text-mining-and-word-cloud-fundamentals-in-r-5-simple-steps-you-should-know
+
+
+pizza$requester_reveived_pizza <- ifelse( "TRUE", 1, 0)
+mod.downVoteUpVote <- lm(requester_received_pizza ~ 
+number_of_downvotes_of_request_at_retrieval + 
+number_of_upvotes_of_request_at_retrieval, data = pizza)
+summary(mod.downVoteUpVote)
