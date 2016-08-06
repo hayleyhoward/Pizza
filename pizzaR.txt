@@ -1,25 +1,63 @@
-﻿install.packages("jsonlite")
+install.packages("jsonlite")
 library(jsonlite)
 
-
+#open the json file as a dataframe#
 pizza <- fromJSON("~/Desktop/pizza_request_dataset.json")
 class(pizza)
 
+#add column with 1/0 (yes pizza/ no pizza)
+pizza$requester_reveived_pizza <- ifelse( "TRUE", 1, 0)
 
-
-
-filePath <- read.table("/Users/hayley/Desktop/pizza_request_dataset.json", header=FALSE, fill=TRUE)
-
-
-/Users/hayley/Desktop
 # word cloud!
-
-
 http://www.sthda.com/english/wiki/text-mining-and-word-cloud-fundamentals-in-r-5-simple-steps-you-should-know
 
 
-pizza$requester_reveived_pizza <- ifelse( "TRUE", 1, 0)
+#regression 
 mod.downVoteUpVote <- lm(requester_received_pizza ~ 
 number_of_downvotes_of_request_at_retrieval + 
 number_of_upvotes_of_request_at_retrieval, data = pizza)
 summary(mod.downVoteUpVote)
+
+##DIVIDING UP THE COLUMNS#####
+##we should probably include request id & if they recieved pizza in everything
+-----#request text-----
+#request_id
+#request_text
+#request_text_edit_aware
+#request_title
+
+#unix_timestamp_of_request (look at the description-something about this might be wrong)
+#unix_timestamp_of_request_utc 
+
+------#other users interaction#----
+#number_of_downvotes_of_request_at_retrieval
+#number_of_upvotes_of_request_at_retrieval
+#request_number_of_comments_at_retrieval
+
+-------#requester contribution on RAOP-------
+#requester_days_since_first_post_on_raop_at_request (0 if this is first post)
+#requester_days_since_first_post_on_raop_at_retrieval
+#requester_number_of_comments_in_raop_at_request
+#requester_number_of_comments_in_raop_at_retrieval
+#requester_number_of_posts_on_raop_at_request
+#requester_number_of_posts_on_raop_at_retrieval
+
+-------requester contribution on Reddit-------
+#requester_number_of_comments_at_request
+#requester_number_of_comments_at_retrieval
+#requester_number_of_posts_at_request
+#requester_number_of_posts_at_retrieval
+#requester_number_of_subreddits_at_request
+#requester_subreddits_at_request (list, maybe convert to a number?)
+
+
+-------#requester account----------
+colnames(pizza)
+pizzaAccount <- data.frame(pizza$request_id, pizza$requester_account_age_in_days_at_request,pizza$requester_account_age_in_days_at_retrieval,pizza$requester_recieved_true, pizza$requester_days_since_first_post_on_raop_at_request,pizza$requester_days_since_first_post_on_raop_at_retrieval)
+
+--------#not really sure what to do with these-----
+##requester_upvotes_minus_downvotes_at_request
+#requester_upvotes_minus_downvotes_at_retrieval
+#requester_upvotes_plus_downvotes_at_request
+#requester_upvotes_plus_downvotes_at_retrieval
+#requester_user_flair
